@@ -1,0 +1,38 @@
+group = 'com.serdroid.hbm'
+version = '1.0-SNAPSHOT'
+
+description = "generator"
+
+configurations {
+    hbt
+}
+
+dependencies {
+    hbt group: 'org.hibernate', name: 'hibernate-tools', version: '5.2.0.Final'
+    hbt group: 'org.slf4j', name: 'slf4j-api', version:'1.7.21'
+    hbt group: 'ch.qos.logback', name: 'logback-classic', version:'1.1.8'
+    hbt group: 'org.postgresql', name: 'postgresql', version: '9.4.1212'
+}
+
+task generate {
+doLast {
+	ant { 
+	    taskdef(name: 'hibernatetool', 
+		classname: 'org.hibernate.tool.ant.HibernateToolTask', 
+		classpath: configurations.hbt.asPath)
+		hibernatetool(destdir: 'src/main/java') {
+	    jdbcconfiguration(
+                configurationfile:'src/main/resources/hibernate.cfg.xml',
+		revengfile: 'src/main/resources/hibernate.reveng.xml',
+		packagename:'com.serdroid.hbm.model',
+                detectmanytomany:'true'
+	    )
+			    hbm2java(
+					destdir:"src/main/java",
+				    jdk5: 'true',
+				    ejb3: 'true'
+			    )
+		} 
+	} 
+}
+}

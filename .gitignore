@@ -1,0 +1,10 @@
+.nb-gradle
+build
+target
+.gradle
+nbproject
+.classpath
+.project
+.settings
+gradle
+gradlew*
